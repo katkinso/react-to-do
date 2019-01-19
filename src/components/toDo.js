@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 
 class ToDo extends Component {
-
-    render(){
-        return (
-            <li> A todo will go here </li>
-        )
-    }
+  render() {
+    return (
+      <li>
+        <input type="checkbox" checked={this.props.isCompleted} />
+        <span>{this.props.description}</span>
+      </li>
+    );
+  }
 }
 
 export default ToDo;
