@@ -16,6 +16,37 @@ class App extends Component {
     };
   }
 
+  toggleComplete(index) {
+    const todos = this.state.todos.slice();
+    const todo = todos[index];
+    todo.isCompleted = todo.isCompleted ? false : true;
+
+    this.setState({
+      todos: todos
+    });
+  }
+
+  //The standard approach to using values from text inputs is to store the value in state
+  handleChange(e) {
+    this.setState({ newTodoDescription: e.target.value });
+  }
+
+  //for some UNKNOWN reason you do this bit in handleSubmit of form. Why not just do it in the handleChange(e)?
+  handleSubmit(e) {
+    e.preventDefault();
+    if (!this.state.newTodoDescription) {
+      return;
+    }
+    const newTodo = {
+      description: this.state.newTodoDescription,
+      isCompleted: false
+    };
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+      newTodoDescription: ""
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -25,9 +56,18 @@ class App extends Component {
               key={index}
               description={todo.description}
               isCompleted={todo.isCompleted}
+              toggleComplete={() => this.toggleComplete(index)}
             />
           ))}
         </ul>
+        <form onSubmit={e => this.handleSubmit(e)}>
+          <input
+            type="text"
+            value={this.state.newTodoDescription}
+            onChange={e => this.handleChange(e)}
+          />
+          <input type="submit" />
+        </form>
       </div>
     );
   }
